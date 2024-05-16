@@ -19,7 +19,11 @@ struct MapView: View {
             Map(position: $viewModel.mapCameraPosition) {
                 if let selection = viewModel.selectedCoordinate {
                     
-                    Marker("", coordinate: selection)
+                    Marker(coordinate: selection) {
+                        
+                        Image(systemName: "exclamationmark.bubble")
+                    }
+                    
                     MapCircle(center: selection, radius: CLLocationDistance(100))
                         .foregroundStyle(.orange.opacity(0.40))
                         .mapOverlayLevel(level: .aboveLabels)
