@@ -14,38 +14,59 @@ struct MapView: View {
     
     var body: some View {
         
-        MapReader { proxy in
+        ZStack {
             
-            Map(position: $viewModel.mapCameraPosition) {
-                if let selection = viewModel.selectedCoordinate {
-                    
-                    Marker(coordinate: selection) {
-                        
-                        Image(systemName: "exclamationmark.bubble")
-                    }
-                    
-                    MapCircle(center: selection, radius: CLLocationDistance(100))
-                        .foregroundStyle(.orange.opacity(0.40))
-                        .mapOverlayLevel(level: .aboveLabels)
-                }
-            }.navigationBarTitleDisplayMode(.inline)
-            .onTapGesture { position in
+            MapReader { proxy in
                 
-                if let coordinate = proxy.convert(position, from: .local) {
-                    
-                    viewModel.updateSelectedCoordinate(coordinate)
-                }
+                Map(position: $viewModel.mapCameraPosition) {
+                    if let selection = viewModel.selectedCoordinate {
+                        
+                        Marker(coordinate: selection) {
+                            
+                            Image(systemName: "exclamationmark.bubble")
+                        }
+                        
+                        MapCircle(center: selection, radius: CLLocationDistance(100))
+                            .foregroundStyle(.orange.opacity(0.40))
+                            .mapOverlayLevel(level: .aboveLabels)
+                    }
+                }.navigationBarTitleDisplayMode(.inline)
+                    .onTapGesture { position in
+                        
+                        if let coordinate = proxy.convert(position, from: .local) {
+                            
+                            viewModel.updateSelectedCoordinate(coordinate)
+                        }
+                    }
             }
-        }
-        .mapControls {
+            .mapControls {
+                
+                MapScaleView()
+                MapCompass()
+                MapUserLocationButton()
+            }
+            .ignoresSafeArea(edges: .all)
+            .onAppear {
+                viewModel.requestLocationPermission()
+            }
             
-            MapScaleView()
-            MapCompass()
-            MapUserLocationButton()
-        }
-        .ignoresSafeArea(edges: .all)
-        .onAppear {
-            viewModel.requestLocationPermission()
+            nextButton
         }
     }
+    
+    @ViewBuilder
+    var nextButton: some View {
+        
+        VStack {
+            
+            Spacer()
+            HorizontalButton(imageString: "arrow.right", label: "Siguiente") {
+                // TODO: Navigate to report form
+            }
+        }
+    }
+}
+
+#Preview {
+    MapView()
 }
