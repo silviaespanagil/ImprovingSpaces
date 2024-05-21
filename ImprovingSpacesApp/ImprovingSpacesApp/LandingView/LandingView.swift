@@ -106,21 +106,10 @@ extension LandingView {
     @ViewBuilder
     var reportButton: some View {
         
-        Button(action: {
-            
+        HorizontalButton(imageString: "map.fill",
+                         label: "Hacer reporte") {
             showingMapView = true
-        }) {
-            HStack {
-                Image(systemName: "map.fill")
-                    .foregroundColor(.black)
-                Text("Hacer reporte")
-                    .font(.headline)
-                    .foregroundColor(.black)
-            }.padding()
         }
-        .background(Color(hex: "ABFB0E"))
-        .clipShape(Capsule())
-        .padding(.horizontal, 16)
     }
 }
 
