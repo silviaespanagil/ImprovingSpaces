@@ -28,7 +28,7 @@ struct MapView: View {
                         .foregroundStyle(.orange.opacity(0.40))
                         .mapOverlayLevel(level: .aboveLabels)
                 }
-            }
+            }.navigationBarTitleDisplayMode(.inline)
             .onTapGesture { position in
                 
                 if let coordinate = proxy.convert(position, from: .local) {
