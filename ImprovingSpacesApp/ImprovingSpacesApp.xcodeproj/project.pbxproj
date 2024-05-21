@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A77B25452BF62E6800999778 /* CoreLocation+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77B25442BF62E6800999778 /* CoreLocation+Extension.swift */; };
 		A77B25472BF62ED900999778 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77B25462BF62ED900999778 /* MapViewModel.swift */; };
+		A77B254A2BF632C900999778 /* LandingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77B25492BF632C900999778 /* LandingView.swift */; };
+		A77B254D2BFC9F5D00999778 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77B254C2BFC9F5D00999778 /* Color+Extension.swift */; };
 		A7E1422C2BF4A87100326FA6 /* ImprovingSpacesAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1422B2BF4A87100326FA6 /* ImprovingSpacesAppApp.swift */; };
 		A7E1422E2BF4A87100326FA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E1422D2BF4A87100326FA6 /* ContentView.swift */; };
 		A7E142302BF4A87300326FA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7E1422F2BF4A87300326FA6 /* Assets.xcassets */; };
@@ -20,6 +22,8 @@
 /* Begin PBXFileReference section */
 		A77B25442BF62E6800999778 /* CoreLocation+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreLocation+Extension.swift"; sourceTree = "<group>"; };
 		A77B25462BF62ED900999778 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		A77B25492BF632C900999778 /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
+		A77B254C2BFC9F5D00999778 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		A7E142282BF4A87100326FA6 /* ImprovingSpacesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImprovingSpacesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7E1422B2BF4A87100326FA6 /* ImprovingSpacesAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovingSpacesAppApp.swift; sourceTree = "<group>"; };
 		A7E1422D2BF4A87100326FA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,8 +57,17 @@
 			isa = PBXGroup;
 			children = (
 				A77B25442BF62E6800999778 /* CoreLocation+Extension.swift */,
+				A77B254C2BFC9F5D00999778 /* Color+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A77B25482BF6329D00999778 /* LandingView */ = {
+			isa = PBXGroup;
+			children = (
+				A77B25492BF632C900999778 /* LandingView.swift */,
+			);
+			path = LandingView;
 			sourceTree = "<group>";
 		};
 		A7E1421F2BF4A87000326FA6 = {
@@ -76,8 +89,9 @@
 		A7E1422A2BF4A87100326FA6 /* ImprovingSpacesApp */ = {
 			isa = PBXGroup;
 			children = (
-				A77B25432BF62E3400999778 /* Extensions */,
+				A77B25482BF6329D00999778 /* LandingView */,
 				A77B25422BF62E0E00999778 /* MapView */,
+				A77B25432BF62E3400999778 /* Extensions */,
 				A7E1423B2BF4F4EA00326FA6 /* Managers */,
 				A7E1422B2BF4A87100326FA6 /* ImprovingSpacesAppApp.swift */,
 				A7E1422D2BF4A87100326FA6 /* ContentView.swift */,
@@ -175,10 +189,12 @@
 			files = (
 				A7E1422E2BF4A87100326FA6 /* ContentView.swift in Sources */,
 				A7E1423A2BF4D44F00326FA6 /* MapView.swift in Sources */,
+				A77B254A2BF632C900999778 /* LandingView.swift in Sources */,
 				A7E1422C2BF4A87100326FA6 /* ImprovingSpacesAppApp.swift in Sources */,
 				A7E1423D2BF4F50B00326FA6 /* LocationPermissionManager.swift in Sources */,
 				A77B25452BF62E6800999778 /* CoreLocation+Extension.swift in Sources */,
 				A77B25472BF62ED900999778 /* MapViewModel.swift in Sources */,
+				A77B254D2BFC9F5D00999778 /* Color+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +316,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
