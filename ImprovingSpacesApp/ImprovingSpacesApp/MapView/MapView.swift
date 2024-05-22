@@ -12,6 +12,8 @@ struct MapView: View {
     
     @StateObject private var viewModel = MapViewModel()
     
+    @State private var goToReportView: Bool = false
+    
     var body: some View {
         
         ZStack {
@@ -19,6 +21,7 @@ struct MapView: View {
             MapReader { proxy in
                 
                 Map(position: $viewModel.mapCameraPosition) {
+                    
                     if let selection = viewModel.selectedCoordinate {
                         
                         Marker(coordinate: selection) {
@@ -50,8 +53,13 @@ struct MapView: View {
                 viewModel.requestLocationPermission()
             }
             
-            nextButton
+            VStack {
+                
+                Spacer()
+                nextButton
+            }
         }
+        .navigationDestination(isPresented: $goToReportView) { ReportFormView() }
     }
     
     @ViewBuilder
@@ -60,9 +68,7 @@ struct MapView: View {
         VStack {
             
             Spacer()
-            HorizontalButton(imageString: "arrow.right", label: "Siguiente") {
-                // TODO: Navigate to report form
-            }
+            HorizontalButton(imageString: "arrow.right", label: "Siguiente") { goToReportView = true }
         }
     }
 }
