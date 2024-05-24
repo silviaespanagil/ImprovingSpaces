@@ -20,19 +20,43 @@ struct MapView: View {
         
         ZStack {
             
+            mapView
+            
+            VStack {
+                
+                searchField
+                Spacer()
+            }
+        }
+        .navigationDestination(isPresented: $goToReportView) { ReportFormView() }
+        .sheet(isPresented: $showAddressSugestions, onDismiss: {
+            viewModel.address = selectedAddress
+        }) {
+            addressSuggestions
+        }
+    }
+    
+    @ViewBuilder
+    var mapView: some View {
+        
+        VStack {
+            
             MapReader { proxy in
                 
                 Map(position: $viewModel.mapCameraPosition) {
                     
                     if let selection = viewModel.selectedCoordinate {
                         
-                        Marker(coordinate: selection) {
+                        Annotation("", coordinate: selection) {
                             
-                            Image(systemName: "exclamationmark.bubble")
-                        }
+                            Image(systemName: "mappin.and.ellipse")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                            .foregroundColor(Color(hex: "FF5714")) }
                         
                         MapCircle(center: selection, radius: CLLocationDistance(100))
-                            .foregroundStyle(.orange.opacity(0.40))
+                            .foregroundStyle(Color(hex: "ABFB0E").opacity(0.40))
                             .mapOverlayLevel(level: .aboveLabels)
                     }
                 }.navigationBarTitleDisplayMode(.inline)
@@ -51,30 +75,16 @@ struct MapView: View {
                 MapCompass()
                 MapUserLocationButton()
             }
-            .ignoresSafeArea(edges: .all)
+        }.ignoresSafeArea(edges: .all)
             .onAppear {
                 viewModel.requestLocationPermission()
             }
-            
-            VStack {
-                
-                searchField
-                Spacer()
-                
-            }
-        }
-        .navigationDestination(isPresented: $goToReportView) { ReportFormView() }
-        .sheet(isPresented: $showAddressSugestions, onDismiss: { 
-            viewModel.address = selectedAddress
-        }) {
-            addressSuggestions
-        }
     }
     
     @ViewBuilder
     var nextButton: some View {
         
-        HorizontalButton(imageString: "arrow.right", label: "Siguiente", isDisabled: selectedAddress.isEmpty) { 
+        HorizontalButton(imageString: "arrow.right", label: "Siguiente", isDisabled: selectedAddress.isEmpty) {
             goToReportView = true
             showAddressSugestions = false
         }
