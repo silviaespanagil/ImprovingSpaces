@@ -41,6 +41,7 @@ struct MapView: View {
                         if let coordinate = proxy.convert(position, from: .local) {
                             
                             viewModel.updateSelectedCoordinate(coordinate)
+                            viewModel.searchAddress(for: coordinate)
                         }
                     }
             }
@@ -73,7 +74,10 @@ struct MapView: View {
     @ViewBuilder
     var nextButton: some View {
         
-        HorizontalButton(imageString: "arrow.right", label: "Siguiente", isDisabled: seledtedAddress.isEmpty) { goToReportView = true }
+        HorizontalButton(imageString: "arrow.right", label: "Siguiente", isDisabled: seledtedAddress.isEmpty) { 
+            goToReportView = true
+            showAddressSugestions = false
+        }
     }
     
     @ViewBuilder
