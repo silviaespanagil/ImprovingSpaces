@@ -13,6 +13,7 @@ struct MapView: View {
     @StateObject private var viewModel = MapViewModel()
     
     @State private var goToReportView: Bool = false
+    @State private var showAddressSugestions: Bool = false
     
     var body: some View {
         
@@ -55,11 +56,15 @@ struct MapView: View {
             
             VStack {
                 
+                searchField
                 Spacer()
                 nextButton
             }
         }
         .navigationDestination(isPresented: $goToReportView) { ReportFormView() }
+        .sheet(isPresented: $showAddressSugestions) {
+            addressSuggestions
+        }
     }
     
     @ViewBuilder
@@ -69,6 +74,53 @@ struct MapView: View {
             
             Spacer()
             HorizontalButton(imageString: "arrow.right", label: "Siguiente") { goToReportView = true }
+        }
+    }
+    
+    @ViewBuilder
+    var searchField: some View {
+        
+        VStack {
+            
+            TextField("Busca la dirección a reportar", text: $viewModel.address)
+                .keyboardType(.numberPad)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .frame(height: 80)
+                .onChange(of: viewModel.address) {
+                    viewModel.updateSearchQuery(viewModel.address)
+                    showAddressSugestions = true
+                }
+            
+        }.padding()
+        
+    }
+    
+    @ViewBuilder
+    var addressSuggestions: some View {
+        
+        VStack {
+            
+            List(viewModel.searchResults, id: \.self) { result in
+                
+                Button(action: {
+                    viewModel.search(result)
+                    showAddressSugestions = false
+                }) {
+                    VStack(alignment: .leading) {
+                        Text(result.title)
+                            .font(.body)
+                            .foregroundColor(.primary)
+                        Text(result.subtitle)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }.listStyle(.plain)
+                .presentationDetents([.fraction(0.25), .fraction(0.50)])
+                .interactiveDismissDisabled()
+                .presentationBackgroundInteraction(
+                    .enabled
+                )
         }
     }
 }
