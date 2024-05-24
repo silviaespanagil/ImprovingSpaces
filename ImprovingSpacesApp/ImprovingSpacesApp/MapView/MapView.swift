@@ -14,6 +14,7 @@ struct MapView: View {
     
     @State private var goToReportView: Bool = false
     @State private var showAddressSugestions: Bool = false
+    @State private var seledtedAddress: String = ""
     
     var body: some View {
         
@@ -58,11 +59,13 @@ struct MapView: View {
                 
                 searchField
                 Spacer()
-                nextButton
+                
             }
         }
         .navigationDestination(isPresented: $goToReportView) { ReportFormView() }
-        .sheet(isPresented: $showAddressSugestions) {
+        .sheet(isPresented: $showAddressSugestions, onDismiss: { 
+            viewModel.address = seledtedAddress
+        }) {
             addressSuggestions
         }
     }
@@ -70,11 +73,7 @@ struct MapView: View {
     @ViewBuilder
     var nextButton: some View {
         
-        VStack {
-            
-            Spacer()
-            HorizontalButton(imageString: "arrow.right", label: "Siguiente") { goToReportView = true }
-        }
+        HorizontalButton(imageString: "arrow.right", label: "Siguiente", isDisabled: seledtedAddress.isEmpty) { goToReportView = true }
     }
     
     @ViewBuilder
@@ -104,7 +103,8 @@ struct MapView: View {
                 
                 Button(action: {
                     viewModel.search(result)
-                    showAddressSugestions = false
+                    viewModel.address = result.title
+                    seledtedAddress = result.title
                 }) {
                     VStack(alignment: .leading) {
                         Text(result.title)
@@ -121,6 +121,7 @@ struct MapView: View {
                 .presentationBackgroundInteraction(
                     .enabled
                 )
+            nextButton
         }
     }
 }
