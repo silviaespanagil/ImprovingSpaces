@@ -1,10 +1,3 @@
-//
-//  ReportFormView.swift
-//  ImprovingSpacesApp
-//
-//  Created by Silvia España Gil on 21/5/24.
-//
-
 import SwiftUI
 import AVFoundation
 
@@ -23,17 +16,20 @@ struct ReportFormView: View {
     
     var body: some View {
         
-        ScrollView {
+        VStack {
             
-            VStack(spacing: 20) {
+            ScrollView {
                 
-                imageArea
-                
-                inputsArea
-                
-                sendButton
+                VStack(spacing: 20) {
+                    imageArea
+                    inputsArea
+                }
+                .padding()
             }
-            .padding()
+            
+            Spacer()
+            
+            sendButton
         }
         .navigationTitle("Formulario")
     }
@@ -41,7 +37,7 @@ struct ReportFormView: View {
     @ViewBuilder
     var imageArea: some View {
         
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 20) {
             
             Text("Comparte una imagen")
                 .font(.headline)
@@ -50,24 +46,24 @@ struct ReportFormView: View {
             ZStack {
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray, lineWidth: 1)
-                    .frame(height: 200)
+                    .stroke(.gray.opacity(0.5), lineWidth: 0.5)
+                    .frame(minHeight: 200)
                 
                 if let image = selectedImage {
                     
                     image
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
                         .cornerRadius(10)
                 } else {
                     
                     Text("Seleccionar foto")
                         .foregroundColor(.gray)
                 }
-            }.actionSheet(isPresented: $showActionSheet) {
+            }
+            .actionSheet(isPresented: $showActionSheet) {
                 
                 ActionSheet(title: Text("Escoge una imagen o toma una nueva foto"),
-                            message: nil,
                             buttons: [
                                 .default(Text("Cámara")) {
                                     cameraManager.requestPermission { granted in
@@ -85,37 +81,51 @@ struct ReportFormView: View {
                             ])
             }
             .sheet(isPresented: $showImagePicker) {
-                
                 ImagePicker(selectedImage: $selectedImage, sourceType: sourceType)
             }
-        }.onTapGesture { showActionSheet = true }
+        }
+        .onTapGesture { showActionSheet = true }
     }
     
     @ViewBuilder
     var inputsArea: some View {
         
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 20) {
             
-            Text("Asunto")
-                .font(.headline)
-            TextField("Un título para tu reporte", text: $subject)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-        }
-        
-        VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 20) {
+                
+                Text("Asunto")
+                    .font(.headline)
+                
+                TextField("Un título para tu reporte", text: $subject)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.gray.opacity(0.5), lineWidth: 0.5)
+                    )
+            }
             
-            Text("Mensaje")
-                .font(.headline)
-            TextEditor(text: $message)
-                .frame(height: 150)
-                .border(Color.gray, width: 1)
+            VStack(alignment: .leading, spacing: 20) {
+                
+                Text("Mensaje")
+                    .font(.headline)
+                
+                TextEditor(text: $message)
+                    .frame(height: 150)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.gray.opacity(0.5), lineWidth: 0.5)
+                    )
+            }
         }
     }
     
     @ViewBuilder
     var sendButton: some View {
         
-        HorizontalButton(imageString: "paperplane", label: "Enviar") { }
+        HorizontalButton(imageString: "paperplane", label: "Enviar") {
+            // TODO
+        }
     }
 }
 
