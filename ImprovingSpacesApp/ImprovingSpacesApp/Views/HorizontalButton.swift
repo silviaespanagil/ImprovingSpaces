@@ -11,11 +11,13 @@ struct HorizontalButton: View {
     
     let imageString: String?
     let label: String
+    let isDisabled: Bool?
     let action: () -> Void
     
-    init(imageString: String?, label: String, action: @escaping () -> Void) {
+    init(imageString: String?, label: String, isDisabled: Bool? = false, action: @escaping () -> Void) {
         self.imageString = imageString
         self.label = label
+        self.isDisabled = isDisabled
         self.action = action
     }
     
@@ -30,14 +32,14 @@ struct HorizontalButton: View {
                 if let image = imageString {
                     
                     Image(systemName: image)
-                        .foregroundColor(.black)
+                        .foregroundColor(isDisabled ?? false ? .white : .black)
                 }
                 Text(label)
                     .font(.headline)
-                    .foregroundColor(.black)
+                    .foregroundColor(isDisabled ?? false ? .white : .black)
             }.padding()
-        }
-        .background(Color(hex: "ABFB0E"))
+        }.disabled(isDisabled ?? false)
+            .background(isDisabled ?? false ? .gray.opacity(0.3) : Color(hex: "ABFB0E"))
         .clipShape(Capsule())
         .padding(.horizontal, 16)
     }
