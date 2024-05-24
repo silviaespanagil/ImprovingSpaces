@@ -81,6 +81,24 @@ class MapViewModel: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
         }
     }
     
+    func searchAddress(for coordinate: CLLocationCoordinate2D) {
+        
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let geocoder = CLGeocoder()
+        
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            
+            guard let placemark = placemarks?.first, error == nil else {
+                
+                print("Reverse geocoding failed with error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            let address = "\(placemark.name ?? ""), \(placemark.locality ?? ""), \(placemark.country ?? "")"
+            self.address = address
+        }
+    }
+    
     private func handleSearchResponse(_ item: MKMapItem) {
         
         let coordinate = item.placemark.coordinate
