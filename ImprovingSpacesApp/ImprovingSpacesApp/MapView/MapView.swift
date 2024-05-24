@@ -27,7 +27,7 @@ struct MapView: View {
                 searchField
                 Spacer()
             }
-        }
+        }.toolbarBackground(.hidden)
         .navigationDestination(isPresented: $goToReportView) { ReportFormView() }
         .sheet(isPresented: $showAddressSugestions, onDismiss: {
             viewModel.address = selectedAddress
@@ -53,7 +53,7 @@ struct MapView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 30, height: 30)
-                            .foregroundColor(Color(hex: "FF5714")) }
+                            .foregroundColor(Color(hex: "FF00FF")) }
                         
                         MapCircle(center: selection, radius: CLLocationDistance(100))
                             .foregroundStyle(Color(hex: "ABFB0E").opacity(0.40))
