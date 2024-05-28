@@ -28,7 +28,7 @@ struct MapView: View {
                 Spacer()
             }
         }.toolbarBackground(.hidden)
-        .navigationDestination(isPresented: $goToReportView) { ReportFormView() }
+            .navigationDestination(isPresented: $goToReportView) { ReportFormView(selectedAddress: selectedAddress) }
         .sheet(isPresented: $showAddressSugestions, onDismiss: {
             viewModel.address = selectedAddress
         }) {

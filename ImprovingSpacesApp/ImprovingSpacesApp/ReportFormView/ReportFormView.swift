@@ -14,6 +14,13 @@ struct ReportFormView: View {
     @State private var subject: String = ""
     @State private var message: String = ""
     
+    let selectedAddress: String
+    
+    init(selectedAddress: String) {
+        
+        self.selectedAddress = selectedAddress
+    }
+    
     var body: some View {
         
         VStack {
@@ -117,6 +124,22 @@ struct ReportFormView: View {
                             .stroke(.gray.opacity(0.5), lineWidth: 0.5)
                     )
             }
+            
+            
+            VStack(alignment: .leading, spacing: 20) {
+                
+                Text("Dirección")
+                    .font(.headline)
+                
+                Text(selectedAddress)
+                    .padding(8)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.gray.opacity(0.5), lineWidth: 0.5)
+                    )
+            }
         }
     }
     
@@ -130,5 +153,5 @@ struct ReportFormView: View {
 }
 
 #Preview {
-    ReportFormView()
+    ReportFormView(selectedAddress: "Rúa Pena Trevinca 34")
 }
