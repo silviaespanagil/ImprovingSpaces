@@ -104,7 +104,7 @@ struct MapView: View {
                     showAddressSugestions = true
                 }
             
-        }.padding()
+        }.padding(.horizontal, 16)
         
     }
     
