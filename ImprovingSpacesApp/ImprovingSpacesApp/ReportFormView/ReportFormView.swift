@@ -4,10 +4,11 @@ import AVFoundation
 struct ReportFormView: View {
     
     @StateObject var cameraManager = CameraManager()
+    private let firestoreService = FirestoreService()
     
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     
-    @State private var selectedImage: Image?
+    @State private var selectedImage: UIImage?
     @State private var showImagePicker = false
     @State private var showActionSheet = false
     
@@ -56,7 +57,7 @@ struct ReportFormView: View {
                     .stroke(.gray.opacity(0.5), lineWidth: 0.5)
                     .frame(minHeight: 200)
                 
-                if let image = selectedImage {
+                if let image = selectedImage.map({ Image(uiImage: $0) }) {
                     
                     image
                         .resizable()
@@ -88,7 +89,8 @@ struct ReportFormView: View {
                             ])
             }
             .sheet(isPresented: $showImagePicker) {
-                ImagePicker(selectedImage: $selectedImage, sourceType: sourceType)
+                ImagePicker(uiImage: $selectedImage, sourceType: sourceType)
+              //  ImagePicker(selectedImage: $selectedImage, sourceType: sourceType)
             }
         }
         .onTapGesture { showActionSheet = true }
@@ -147,7 +149,15 @@ struct ReportFormView: View {
     var sendButton: some View {
         
         HorizontalButton(imageString: "paperplane", label: "Enviar") {
-            // TODO
+            let report = Report(subject: subject, message: message, address: selectedAddress)
+            firestoreService.addReport(report: report, image: selectedImage) { result in
+                switch result {
+                case .success:
+                    print("Reporte enviado correctamente")
+                case .failure(let error):
+                    print("Error al enviar el reporte: \(error)")
+                }
+            }
         }
     }
 }
